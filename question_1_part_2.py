@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as pyplot
 
 numberOfSimulations = 10000
-deltaTValue = 10000
+deltaTValue = 100
 
 deltaT = 1 / deltaTValue                                                            
 times = np.zeros((numberOfSimulations, deltaTValue))                                          
@@ -11,13 +11,12 @@ for i in range(1, deltaTValue):
     increments = np.random.normal(0, np.sqrt(deltaT), numberOfSimulations)          
     times[:, i] = times[:, i - 1] + increments
 
-numberOfPositives = np.sum(times > 0, axis = 1)
-proportions = numberOfPositives / deltaTValue
+maxIndices = np.argmax(times, axis=1)
+maxTimes = maxIndices * deltaT
 
-pyplot.figure(figsize=(12, 6))
-pyplot.hist(proportions, bins=30, alpha=0.5, edgecolor='black', label=f'deltaT = {deltaT}')
-pyplot.title('Distribution of Proportion of Positive Temperature Over Time')
-pyplot.xlabel('Proportion of positive temperature')
+pyplot.hist(maxTimes, bins=30, alpha=0.5, edgecolor='black', label=f'Δt = {deltaT}')
+pyplot.title('Distribution of Time at Maximum Temperature')
+pyplot.xlabel('Time of maximum temperature')
 pyplot.ylabel('Frequency')
 pyplot.legend(loc='upper right')
 pyplot.show()
